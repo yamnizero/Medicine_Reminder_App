@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine_reminder_app2022/UI/theme.dart';
+import 'package:medicine_reminder_app2022/UI/widgets/button.dart';
 import 'package:medicine_reminder_app2022/UI/widgets/input_field.dart';
 
 class AddPillPage extends StatefulWidget {
@@ -14,8 +15,10 @@ class AddPillPage extends StatefulWidget {
 
 class _AddPillPageState extends State<AddPillPage> {
 
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-  String _startTime = DateFormat('hh:mm a').format(DateTime.now()).toString();
+  String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   String _endTime = "9:30 PM";
   int _selectedRemind = 5;
   List<int> remindList =[
@@ -32,6 +35,9 @@ class _AddPillPageState extends State<AddPillPage> {
     "Weekly",
     "Monthly",
   ];
+
+  int _selectedColor =0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,11 +52,13 @@ class _AddPillPageState extends State<AddPillPage> {
               Text("Add Pill",
               style: headingStyle,
               ),
-              const MyInputField(
+               MyInputField(
+                controller: _titleController,
                 title: "Title",
                 hint: "Enter your title",
               ),
-              const MyInputField(
+               MyInputField(
+                 controller: _noteController,
                 title: "Note",
                 hint: "Enter your note",
               ),
@@ -144,28 +152,11 @@ class _AddPillPageState extends State<AddPillPage> {
               ),
               const SizedBox(height: 18,),
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Color",style: titleStyle,),
-                      const SizedBox(height: 8.0,),
-                      Wrap(
-                        children: List<Widget>.generate(
-                          3,
-                            (int index){
-                            return  Padding(
-                              padding: const  EdgeInsets.only(right: 8.0),
-                              child:  CircleAvatar(
-                                radius: 14,
-                                backgroundColor: index == 0 ? primaryClr : index== 1?pinkClr:yellowClr,
-                              ),
-                            );
-                            }
-                        ),
-                      )
-                    ],
-                  )
+                  _colorPalette(),
+                  MyButton(label: "Create Pill", onTap: ()=>_validateDate())
                 ],
               )
             ],
@@ -175,6 +166,53 @@ class _AddPillPageState extends State<AddPillPage> {
     );
   }
 
+  _validateDate(){
+    if(_titleController.text.isNotEmpty&&_noteController.text.isNotEmpty){
+      //add to database
+      Get.back();
+    }else if(_titleController.text.isEmpty || _noteController.text.isEmpty){
+      Get.snackbar("Required","All fields are required !",
+      snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+        colorText: pinkClr,
+        icon: const Icon(Icons.warning_amber_rounded,color: Colors.red,)
+      );
+    }
+  }
+  _colorPalette(){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Color",style: titleStyle,),
+        const SizedBox(height: 8.0,),
+        Wrap(
+          children: List<Widget>.generate(
+              3,
+                  (int index){
+                return  GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      _selectedColor =index;
+
+                    });
+                  },
+                  child: Padding(
+                    padding: const  EdgeInsets.only(right: 8.0),
+                    child:  CircleAvatar(
+                      radius: 14,
+                      backgroundColor: index == 0 ? primaryClr : index== 1?pinkClr:yellowClr,
+                      child: _selectedColor==index
+                          ? const Icon(Icons.done,color: Colors.white,size: 16,)
+                          :Container(),
+                    ),
+                  ),
+                );
+              }
+          ),
+        )
+      ],
+    );
+  }
   _appBar(BuildContext context){
     return AppBar(
       backgroundColor: context.theme.backgroundColor,
@@ -199,7 +237,6 @@ class _AddPillPageState extends State<AddPillPage> {
       ],
     );
   }
-
   _getDateFromUser() async {
     DateTime? _pickerDate = await showDatePicker(
         context: context,
@@ -216,7 +253,6 @@ class _AddPillPageState extends State<AddPillPage> {
       print("it's null or something is wrong");
     }
   }
-
   _getTimeFromUser({required bool isStartTime}) async {
     var pickedTime = await _showTimePicker();
     String _formatedTime  =  pickedTime.format(context);
@@ -242,4 +278,5 @@ class _AddPillPageState extends State<AddPillPage> {
        ),
     );
   }
+
 }
