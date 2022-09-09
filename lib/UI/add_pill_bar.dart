@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:medicine_reminder_app2022/UI/theme.dart';
 import 'package:medicine_reminder_app2022/UI/widgets/button.dart';
 import 'package:medicine_reminder_app2022/UI/widgets/input_field.dart';
+import 'package:medicine_reminder_app2022/controller/pill_controller.dart';
+import 'package:medicine_reminder_app2022/models/pill_model.dart';
 
 class AddPillPage extends StatefulWidget {
   const AddPillPage({Key? key}) : super(key: key);
@@ -14,6 +16,8 @@ class AddPillPage extends StatefulWidget {
 }
 
 class _AddPillPageState extends State<AddPillPage> {
+
+  final PillController _pillController = Get.put(PillController());
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
@@ -168,7 +172,7 @@ class _AddPillPageState extends State<AddPillPage> {
 
   _validateDate(){
     if(_titleController.text.isNotEmpty&&_noteController.text.isNotEmpty){
-      //add to database
+     _addPillToDb();
       Get.back();
     }else if(_titleController.text.isEmpty || _noteController.text.isEmpty){
       Get.snackbar("Required","All fields are required !",
@@ -178,6 +182,24 @@ class _AddPillPageState extends State<AddPillPage> {
         icon: const Icon(Icons.warning_amber_rounded,color: Colors.red,)
       );
     }
+  }
+
+  _addPillToDb()async {
+   int value  = await _pillController.addPill(
+      pill: PillModel(
+        title: _titleController.text,
+        note: _noteController.text,
+        date: DateFormat.yMd().format(_selectedDate),
+        startTime: _startTime,
+        endTime: _endTime,
+        remind: _selectedRemind,
+        repeat: _selectedRepeat,
+        color: _selectedColor,
+        isCompleted: 0,
+      )
+    );
+   print("My id is " "$value");
+
   }
   _colorPalette(){
     return Column(
