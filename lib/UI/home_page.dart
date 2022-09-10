@@ -1,9 +1,12 @@
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:medicine_reminder_app2022/UI/add_pill_bar.dart';
 import 'package:medicine_reminder_app2022/UI/theme.dart';
+import 'package:medicine_reminder_app2022/UI/widgets/pill_title.dart';
+import 'package:medicine_reminder_app2022/controller/pill_controller.dart';
 import 'package:medicine_reminder_app2022/services/notification_services.dart';
 import 'package:medicine_reminder_app2022/services/theme_services.dart';
 import 'package:get/get.dart';
@@ -20,6 +23,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
    DateTime _selectedDate = DateTime.now();
+   final _pillController = Get.put(PillController());
+
+
   var notifyHelper;
   @override
   void initState() {
@@ -38,12 +44,45 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children:  [
           _appPillBar(),
-          _appDateBar()
+          _appDateBar(),
+          const SizedBox(height: 10,),
+          _showsPills(),
         ],
       ),
     );
   }
 
+   _appBar(){
+     return AppBar(
+       backgroundColor: context.theme.backgroundColor,
+       elevation: 0.0,
+       leading: GestureDetector(
+         onTap: (){
+           ThemeService().switchTheme();
+           notifyHelper.displayNotification(
+             title:"Theme Changed",
+             body:Get.isDarkMode?  "Activated Light Theme" : "Activated Dark Theme",
+           );
+           notifyHelper.scheduledNotification();
+         },
+         child:  Icon(
+           Get.isDarkMode?
+           Icons.wb_sunny_outlined
+               :Icons.nightlight_round,
+           size: 20,
+           color: Get.isDarkMode ?Colors.white:Colors.black,
+         ),
+       ),
+       actions: const [
+         CircleAvatar(
+           backgroundImage: AssetImage(
+               "assets/images/personal.png"
+           ),
+         ),
+         SizedBox(width: 20,)
+       ],
+     );
+   }
   _appDateBar(){
     return Container(
       margin: const EdgeInsets.only(top: 20,left: 20),
@@ -100,41 +139,47 @@ class _HomePageState extends State<HomePage> {
           ),
           MyButton(
             label: "+ Add Pill",
-            onTap: ()=>Get.to(AddPillPage()),
+            onTap: () async{
+              await Get.to(()=> AddPillPage());
+              _pillController.getPills();
+            },
           ),
         ],
       ),
     );
   }
-  _appBar(){
-    return AppBar(
-      backgroundColor: context.theme.backgroundColor,
-      elevation: 0.0,
-      leading: GestureDetector(
-         onTap: (){
-           ThemeService().switchTheme();
-           notifyHelper.displayNotification(
-             title:"Theme Changed",
-             body:Get.isDarkMode?  "Activated Light Theme" : "Activated Dark Theme",
-           );
-           notifyHelper.scheduledNotification();
-         },
-        child:  Icon(
-          Get.isDarkMode?
-           Icons.wb_sunny_outlined
-          :Icons.nightlight_round,
-          size: 20,
-          color: Get.isDarkMode ?Colors.white:Colors.black,
-        ),
-      ),
-      actions: const [
-        CircleAvatar(
-          backgroundImage: AssetImage(
-            "assets/images/personal.png"
-          ),
-        ),
-        SizedBox(width: 20,)
-      ],
+
+
+  _showsPills() {
+    return Expanded(
+      child: Obx((){
+        return ListView.builder(
+          itemCount: _pillController.pillList.length,
+
+          //--
+          itemBuilder: (_,index){
+            print(_pillController.pillList.length);
+          return AnimationConfiguration.staggeredList(
+              position: index,
+            child: SlideAnimation(
+              child: FadeInAnimation(
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: (){
+                        print("Tapped");
+                      },
+                      child: PillTitle(pill: _pillController.pillList[index]),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+
+          },
+        );
+      }),
     );
   }
 }

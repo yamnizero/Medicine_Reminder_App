@@ -39,6 +39,18 @@ class DBHelper{
     return await _db?.insert(_tableName, pill!.toJson())??1;
   }
 
+  static Future<List<Map<String,dynamic>>> query() async {
+    print("query function called");
+    return await _db!.query(_tableName);
+  }
+
+  static deleteHelper(PillModel pill) async {
+  return await _db!.delete(
+      _tableName,
+      where: 'id=?',
+      whereArgs: [pill.id],
+    );
+  }
 
 
 }
