@@ -22,7 +22,7 @@ class _AddPillPageState extends State<AddPillPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
-  String _startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
+  String _startTime = DateFormat("hh:mm a").format(DateTime.now());
   String _endTime = "9:30 PM";
   int _selectedRemind = 5;
   List<int> remindList =[

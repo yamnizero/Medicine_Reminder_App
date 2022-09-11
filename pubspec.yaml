@@ -42,7 +42,7 @@ dependencies:
   google_fonts:
   date_picker_timeline:
   flutter_local_notifications:
-  flutter_native_timezone:
+  flutter_native_timezone: ^1.0.10
   sqflite:
   flutter_staggered_animations:
 

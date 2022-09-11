@@ -26,7 +26,12 @@ class PillController extends GetxController{
   //responsible for deleting
   void delete(PillModel pill){
      DBHelper.deleteHelper(pill);
+     getPills();
+  }
 
+  void markPillCompleted(int id)async{
+   await DBHelper.update(id);
+   getPills();
   }
 
 }
