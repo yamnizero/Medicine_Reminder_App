@@ -15,7 +15,7 @@ const  Color darkGreyClr = Color(0xFF121212);
 class Themes{
  static final light = ThemeData(
    backgroundColor: Colors.white,
-   primaryColor: primaryClr,
+     colorSchemeSeed: primaryClr,
    brightness: Brightness.light
  );
  // Dark theme works in this case =>
@@ -24,7 +24,7 @@ class Themes{
  // primary: Colors.amberAccent)).
  static final dark = ThemeData(
      backgroundColor:darkGreyClr,
-   primaryColor:darkGreyClr,
+     colorSchemeSeed:darkGreyClr,
    brightness: Brightness.dark
  );
 

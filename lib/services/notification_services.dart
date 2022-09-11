@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
+import 'package:medicine_reminder_app2022/UI/notification_page.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
 //import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -62,6 +63,7 @@ class NotifyHelper{
         UILocalNotificationDateInterpretation.absoluteTime,
         //change time
         matchDateTimeComponents: DateTimeComponents.time,
+      payload: "${pill.title}|"+"${pill.title}|"
 
     );
 
@@ -77,21 +79,7 @@ class NotifyHelper{
     return scheduleDate;
   }
 
-//   static Future configureLocalTimeZone() async {
-//     tz.initializeTimeZones();
-//     final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
-//
-//     Logger.log('Timezone: $timeZoneName', className: '$AppConfig');
-//     try {
-//       tz.setLocalLocation(tz.getLocation(timeZoneName));
-//     } catch () {
-// // Failed to get timezone or device is GMT or UTC, assign generic timezone
-//       const String fallback = 'Africa/Accra';
-//       Logger.log('Could not get a legit timezone, setting as $fallback',
-//           className: '$AppConfig');
-//       tz.setLocalLocation(tz.getLocation(fallback));
-//     }
-//   }
+
 
 
 
@@ -142,7 +130,7 @@ class NotifyHelper{
     } else {
       print("Notification Done");
     }
-    Get.to(()=>Container(color: Colors.white,));
+    Get.to(()=>NotifiedPage(label:payload));
   }
 
   Future onDidReceiveLocalNotification(
