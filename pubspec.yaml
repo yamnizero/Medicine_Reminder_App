@@ -40,11 +40,12 @@ dependencies:
   get:
   intl:
   google_fonts:
-  date_picker_timeline:
+  date_picker_timeline: ^1.2.3
   flutter_local_notifications:
   flutter_native_timezone: ^1.0.10
   sqflite:
   flutter_staggered_animations:
+  rxdart: ^0.27.3
 
 
 dev_dependencies:

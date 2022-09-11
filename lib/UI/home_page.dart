@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     notifyHelper = NotifyHelper();
     notifyHelper.initializeNotification();
+
     notifyHelper.requestIOSPermissions();
   }
 
@@ -157,7 +158,7 @@ class _HomePageState extends State<HomePage> {
             PillModel pill = _pillController.pillList[index];
             print(pill.toJson());
             if(pill.repeat=='Daily'){
-             DateTime date = DateFormat.jm().parse(pill.startTime!);
+             DateTime date = DateFormat.jm().parse(pill.startTime.toString());
               var myTime =DateFormat("hh:mm").format(date);
               notifyHelper.scheduledNotification(
                 int.parse(myTime.toString().split(":")[0]),
