@@ -7,6 +7,7 @@ import 'package:medicine_reminder_app2022/UI/add_pill_bar.dart';
 import 'package:medicine_reminder_app2022/UI/theme.dart';
 import 'package:medicine_reminder_app2022/UI/widgets/pill_title.dart';
 import 'package:medicine_reminder_app2022/controller/pill_controller.dart';
+import 'package:medicine_reminder_app2022/models/medicine_type.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
 import 'package:medicine_reminder_app2022/services/notification_services.dart';
 import 'package:medicine_reminder_app2022/services/theme_services.dart';
@@ -131,6 +132,7 @@ class _HomePageState extends State<HomePage> {
                   style: subHeadingStyle,
                 ),
                 Text(
+                  //
                   "Today",
                   style: headingStyle,
                 )
@@ -148,6 +150,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
 
   _showsPills() {
     return Expanded(
@@ -229,7 +232,7 @@ class _HomePageState extends State<HomePage> {
               color: Get.isDarkMode ? Colors.grey[600] : Colors.grey[300],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           pill.isCompleted == 1
               ? Container()
               : _bottomSheetButton(

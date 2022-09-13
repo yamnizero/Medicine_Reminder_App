@@ -37,13 +37,13 @@ class NotifyHelper{
     AndroidInitializationSettings("appicon");
 
     final InitializationSettings initializationSettings =
-        InitializationSettings(
-            iOS: initializationSettingsIOS,
-            android: initializationSettingsAndroid,
-        );
+    InitializationSettings(
+      iOS: initializationSettingsIOS,
+      android: initializationSettingsAndroid,
+    );
     await flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-      onSelectNotification: selectNotification
+        initializationSettings,
+        onSelectNotification: selectNotification
     );
 
   }
@@ -63,7 +63,7 @@ class NotifyHelper{
         UILocalNotificationDateInterpretation.absoluteTime,
         //change time
         matchDateTimeComponents: DateTimeComponents.time,
-      payload: "${pill.title}|"+"${pill.title}|"
+        payload: "${pill.title}|"+"${pill.title}|"
 
     );
 
@@ -72,7 +72,7 @@ class NotifyHelper{
   tz.TZDateTime _convertTime(int hour,int minutes){
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
     tz.TZDateTime scheduleDate  =
-        tz.TZDateTime(tz.local,now.year,now.minute,now.day,hour,minutes);
+    tz.TZDateTime(tz.local,now.year,now.minute,now.day,hour,minutes);
     if(scheduleDate.isBefore(now)){
       scheduleDate = scheduleDate.add(const Duration(days: 1));
     }

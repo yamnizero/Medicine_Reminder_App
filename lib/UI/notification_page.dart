@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 
 class NotifiedPage extends StatelessWidget {
   final String? label;
-  const NotifiedPage({Key? key,required this.label}) : super(key: key);
+  // final String? body;
+
+  const NotifiedPage({Key? key,required this.label,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,7 @@ class NotifiedPage extends StatelessWidget {
           color: Get.isDarkMode ? Colors.white:Colors.grey,
           ),
         ),
+        centerTitle: true,
         title: Text(label.toString().split("|")[0],style: const TextStyle(
           color: Colors.black
         ),),
@@ -29,13 +32,21 @@ class NotifiedPage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Get.isDarkMode ? Colors.white:Colors.grey[400]
-
           ),
-          child: Center(
-            child: Text(label.toString().split("|")[1],style:  TextStyle(
-                color:Get.isDarkMode ? Colors.black:Colors.white,
-              fontSize: 30,
-            ),),
+          child: ListView(
+              children: [
+                ListTile(
+                  leading:  Icon(Icons.title,color: Get.isDarkMode ? Colors.black:Colors.white,),
+                  title:  Text(label.toString().split("|")[1],style:  TextStyle(
+                    color:Get.isDarkMode ? Colors.black:Colors.white,
+                    fontSize: 30,
+                  ),),
+                  // subtitle: Text(body.toString().split("|")[1],style:  TextStyle(
+                  //   color:Get.isDarkMode ? Colors.black:Colors.white,
+                  //   fontSize: 30,
+                  // ),),
+                )
+              ],
           ),
         ),
       ),

@@ -9,6 +9,7 @@ class PillModel{
   int? color;
   int? remind;
   String? repeat;
+  String? medicineForm;
 
   PillModel({
     this.id,
@@ -21,6 +22,7 @@ class PillModel{
     this.color,
     this.remind,
     this.repeat,
+    this.medicineForm
 
 });
   PillModel.fromJson(Map<String,dynamic> json){
@@ -34,6 +36,7 @@ class PillModel{
     color = json['color'];
     remind = json['remind'];
     repeat = json['repeat'];
+    medicineForm =json['medicineForm'];
   }
 
  Map<String,dynamic> toJson(){
@@ -48,8 +51,20 @@ class PillModel{
     data['color'] = color;
     data['remind'] = remind;
     data['repeat'] = repeat;
+    data['medicineForm'] = medicineForm;
     return data;
  }
-
+//---------------------| Get the medicine image path |-------------------------
+  String get image{
+    switch(medicineForm){
+      case "Syrup": return "assets/images/syrup.png";
+      case "Pill":return "assets/images/pills.png";
+      case "Capsule":return "assets/images/capsule.png";
+      case "Cream":return "assets/images/cream.png";
+      case "Drops":return "assets/images/drops.png";
+      case "Syringe":return "assets/images/syringe.png";
+      default : return "assets/images/pills.png";
+    }
+  }
 
 }

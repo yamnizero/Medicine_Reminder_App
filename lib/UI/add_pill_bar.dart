@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:medicine_reminder_app2022/UI/theme.dart';
 import 'package:medicine_reminder_app2022/UI/widgets/button.dart';
 import 'package:medicine_reminder_app2022/UI/widgets/input_field.dart';
+import 'package:medicine_reminder_app2022/UI/widgets/medicine_type_widget.dart';
 import 'package:medicine_reminder_app2022/controller/pill_controller.dart';
+import 'package:medicine_reminder_app2022/models/medicine_type.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
 
 class AddPillPage extends StatefulWidget {
@@ -154,6 +156,32 @@ class _AddPillPageState extends State<AddPillPage> {
                    },
                  ),
               ),
+              //IMages
+              Container(
+                margin: const EdgeInsets.only(top: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Medicine form",
+                      style: titleStyle,
+                    ),
+                    Container(
+                      height: 120,
+                      margin: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsets.only(left: 14),
+                      child: ListView(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        children: <Widget>[
+                          ...medicineTypes.map(
+                                  (type) => MedicineTypeCard(pillType: type, handler: medicineTypeClick))
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               const SizedBox(height: 18,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,7 +190,8 @@ class _AddPillPageState extends State<AddPillPage> {
                   _colorPalette(),
                   MyButton(label: "Create Pill", onTap: ()=>_validateDate())
                 ],
-              )
+              ),
+              const SizedBox(height: 20,),
             ],
           ),
         ),
@@ -200,6 +229,27 @@ class _AddPillPageState extends State<AddPillPage> {
     );
    print("My id is " "$value");
 
+  }
+
+  //list of medicines forms objects
+  final List<MedicineType> medicineTypes = [
+    MedicineType("Syrup", Image.asset("assets/images/syrup.png"), true),
+    MedicineType(
+        "Pill", Image.asset("assets/images/pills.png"), false),
+    MedicineType(
+        "Capsule", Image.asset("assets/images/capsule.png"), false),
+    MedicineType(
+        "Cream", Image.asset("assets/images/cream.png"), false),
+    MedicineType(
+        "Drops", Image.asset("assets/images/drops.png"), false),
+    MedicineType(
+        "Syringe", Image.asset("assets/images/syringe.png"), false),
+  ];
+  void medicineTypeClick(MedicineType medicine) {
+    setState(() {
+      medicineTypes.forEach((medicineType) => medicineType.isChoose = false);
+      medicineTypes[medicineTypes.indexOf(medicine)].isChoose = true;
+    });
   }
   _colorPalette(){
     return Column(
@@ -300,5 +350,6 @@ class _AddPillPageState extends State<AddPillPage> {
        ),
     );
   }
+
 
 }
