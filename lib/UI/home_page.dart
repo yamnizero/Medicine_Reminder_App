@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   DateTime _selectedDate = DateTime.now();
   final _pillController = Get.put(PillController());
 
-  var notifyHelper;
+  late final notifyHelper;
 
   @override
   void initState() {
@@ -34,7 +34,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     notifyHelper = NotifyHelper();
     notifyHelper.initializeNotification();
-
     notifyHelper.requestIOSPermissions();
   }
 
@@ -77,7 +76,7 @@ class _HomePageState extends State<HomePage> {
           color: Get.isDarkMode ? Colors.white : Colors.black,
         ),
       ),
-      actions: const [
+      actions:  const [
         CircleAvatar(
           backgroundImage: AssetImage("assets/images/personal.png"),
         ),
@@ -151,7 +150,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   _showsPills() {
     return Expanded(
       child: Obx(() {
@@ -160,14 +158,9 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (_, index) {
             PillModel pill = _pillController.pillList[index];
             print(pill.toJson());
+            _scheduleNotificationDate(pill);
             if(pill.repeat=='Daily'){
-             DateTime date = DateFormat.jm().parse(pill.startTime.toString());
-              var myTime =DateFormat("hh:mm").format(date);
-              notifyHelper.scheduledNotification(
-                int.parse(myTime.toString().split(":")[0]),
-                int.parse(myTime.toString().split(":")[1]),
-                pill
-              );
+
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -212,6 +205,16 @@ class _HomePageState extends State<HomePage> {
           },
         );
       }),
+    );
+  }
+
+  void _scheduleNotificationDate(PillModel pill){
+    DateTime date = DateFormat.jm().parse(pill.startTime!);
+    var myTime =DateFormat("HH:mm").format(date);
+    notifyHelper.scheduledNotification(
+        int.parse(myTime.toString().split(":")[0]),
+        int.parse(myTime.toString().split(":")[1]),
+        pill
     );
   }
 

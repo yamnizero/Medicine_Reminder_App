@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class PillModel{
   int? id;
   String? title;
@@ -9,7 +11,11 @@ class PillModel{
   int? color;
   int? remind;
   String? repeat;
-  String? medicineForm;
+  // int? image;
+  // int? medicineForm;
+  String? image;
+
+
 
   PillModel({
     this.id,
@@ -22,9 +28,13 @@ class PillModel{
     this.color,
     this.remind,
     this.repeat,
-    this.medicineForm
+    this.image
+    // this.medicineForm,
+    // this.image
 
 });
+
+
   PillModel.fromJson(Map<String,dynamic> json){
     id = json['id'];
     title = json['title'];
@@ -36,7 +46,11 @@ class PillModel{
     color = json['color'];
     remind = json['remind'];
     repeat = json['repeat'];
-    medicineForm =json['medicineForm'];
+    image = json['image'];
+    // medicineForm=json['medicineForm'];
+    // image=json['image'];
+
+
   }
 
  Map<String,dynamic> toJson(){
@@ -51,20 +65,23 @@ class PillModel{
     data['color'] = color;
     data['remind'] = remind;
     data['repeat'] = repeat;
-    data['medicineForm'] = medicineForm;
+    data['image'] = image;
+    // data['medicineForm'] =medicineForm;
+    // data['image'] =image;
+
+
     return data;
  }
-//---------------------| Get the medicine image path |-------------------------
-  String get image{
-    switch(medicineForm){
-      case "Syrup": return "assets/images/syrup.png";
-      case "Pill":return "assets/images/pills.png";
-      case "Capsule":return "assets/images/capsule.png";
-      case "Cream":return "assets/images/cream.png";
-      case "Drops":return "assets/images/drops.png";
-      case "Syringe":return "assets/images/syringe.png";
-      default : return "assets/images/pills.png";
-    }
-  }
 
+  // String get image{
+  //   switch(medicineForm){
+  //     case "Syrup": return "assets/images/syrup.png";
+  //     case "Pill":return "assets/images/pills.png";
+  //     case "Capsule":return "assets/images/capsule.png";
+  //     case "Cream":return "assets/images/cream.png";
+  //     case "Drops":return "assets/images/drops.png";
+  //     case "Syringe":return "assets/images/syringe.png";
+  //     default : return "assets/images/pills.png";
+  //   }
+  // }
 }

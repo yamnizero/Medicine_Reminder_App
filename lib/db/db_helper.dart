@@ -25,7 +25,7 @@ class DBHelper{
                 "startTime STRING, endTime STRING, "
                 "remind INTEGER, repeat STRING, "
                 "color INTEGER, "
-                "isCompleted INTEGER)",
+                "isCompleted INTEGER, image STRING)",
           );
         },
       );

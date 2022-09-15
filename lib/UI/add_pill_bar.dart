@@ -1,4 +1,6 @@
 
+
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -9,6 +11,7 @@ import 'package:medicine_reminder_app2022/UI/widgets/medicine_type_widget.dart';
 import 'package:medicine_reminder_app2022/controller/pill_controller.dart';
 import 'package:medicine_reminder_app2022/models/medicine_type.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
+import 'package:medicine_reminder_app2022/utils/constants.dart';
 
 class AddPillPage extends StatefulWidget {
   const AddPillPage({Key? key}) : super(key: key);
@@ -34,6 +37,20 @@ class _AddPillPageState extends State<AddPillPage> {
     20,
   ];
 
+  //list of medicines forms objects
+  final List<MedicineType> medicineTypes = [
+    MedicineType("Syrup", Image.asset(kSyrupImage), true,kSyrupImage),
+    MedicineType(
+        "Pill", Image.asset(kPillImage), false,kPillImage),
+    MedicineType(
+        "Capsule", Image.asset(kCapsuleImage), false,kCapsuleImage),
+    MedicineType(
+        "Cream", Image.asset(kCreamImage), false,kCreamImage),
+    MedicineType(
+        "Drops", Image.asset("assets/images/drops.png"), false,"assets/images/drops.png"),
+    MedicineType(
+        "Syringe", Image.asset("assets/images/syringe.png"), false,"assets/images/syringe.png"),
+  ];
   String _selectedRepeat = "None";
   List<String> repeatList =[
     "None",
@@ -42,7 +59,8 @@ class _AddPillPageState extends State<AddPillPage> {
     "Monthly",
   ];
 
-  int _selectedColor =0;
+  int _selectedColor = 0;
+  int _selectedTypeImage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +151,12 @@ class _AddPillPageState extends State<AddPillPage> {
                    },
                  ),
               ),
+
+              //IMages
+
                MyInputField(
                 title: "Repeat",
-                hint: "$_selectedRepeat",
+                hint: _selectedRepeat,
                  widget: DropdownButton(
                    icon: const Icon(Icons.keyboard_arrow_down,color: Colors.grey,),
                    iconSize: 32,
@@ -145,7 +166,7 @@ class _AddPillPageState extends State<AddPillPage> {
                    items: repeatList.map<DropdownMenuItem<String>>((String? value ){
                      return DropdownMenuItem<String>(
                        value: value.toString(),
-                       child: Text(value!,style: TextStyle(color: Colors.grey),),
+                       child: Text(value!,style: const TextStyle(color: Colors.grey),),
                      );
                    }
                    ).toList(),
@@ -156,34 +177,30 @@ class _AddPillPageState extends State<AddPillPage> {
                    },
                  ),
               ),
-              //IMages
+
               Container(
-                margin: const EdgeInsets.only(top: 16),
+                margin: const EdgeInsets.only(top: 16,bottom: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Medicine form",
-                      style: titleStyle,
-                    ),
+                    Text("Medicine form",style: titleStyle,),
+                    const SizedBox(height: 8.0,),
                     Container(
-                      height: 120,
-                      margin: const EdgeInsets.only(top: 8.0),
-                      padding: const EdgeInsets.only(left: 14),
+                      height: 80,
                       child: ListView(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
                         children: <Widget>[
                           ...medicineTypes.map(
-                                  (type) => MedicineTypeCard(pillType: type, handler: medicineTypeClick))
+                                  (type) => MedicineTypeCard(pillType: type,handler: medicineTypeClick,))
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 18,),
-              Row(
+
+               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -224,6 +241,9 @@ class _AddPillPageState extends State<AddPillPage> {
         remind: _selectedRemind,
         repeat: _selectedRepeat,
         color: _selectedColor,
+        // medicineForm: _selectedTypeImage,
+        image: medicineTypes.firstWhere((element) => element?.isChoose ?? false,orElse: ()=> medicineTypes.first).rawImage,
+
         isCompleted: 0,
       )
     );
@@ -231,26 +251,54 @@ class _AddPillPageState extends State<AddPillPage> {
 
   }
 
-  //list of medicines forms objects
-  final List<MedicineType> medicineTypes = [
-    MedicineType("Syrup", Image.asset("assets/images/syrup.png"), true),
-    MedicineType(
-        "Pill", Image.asset("assets/images/pills.png"), false),
-    MedicineType(
-        "Capsule", Image.asset("assets/images/capsule.png"), false),
-    MedicineType(
-        "Cream", Image.asset("assets/images/cream.png"), false),
-    MedicineType(
-        "Drops", Image.asset("assets/images/drops.png"), false),
-    MedicineType(
-        "Syringe", Image.asset("assets/images/syringe.png"), false),
-  ];
   void medicineTypeClick(MedicineType medicine) {
     setState(() {
-      medicineTypes.forEach((medicineType) => medicineType.isChoose = false);
+      medicineTypes.forEach((element) {element.isChoose = false;});
       medicineTypes[medicineTypes.indexOf(medicine)].isChoose = true;
     });
   }
+  _typeImagePalette(){
+    return
+
+        // Text("Medicine form",style: titleStyle,),
+        // const SizedBox(height: 8.0,),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Medicine form",style: titleStyle,),
+            const SizedBox(height: 8.0,),
+
+            Wrap(
+                children: List<Widget>.generate(
+                    6,
+                        (int index){
+                      return  GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            _selectedTypeImage =index;
+
+                          });
+                        },
+                        child: Padding(
+                          padding: const  EdgeInsets.only(right: 8.0),
+                          child:  CircleAvatar(
+                            radius: 100.0,
+                          child: _selectedTypeImage==index
+                              ? const Icon(Icons.done,color: Colors.white,size: 16,)
+                              :Container(),
+                        ),
+                        ),
+                      );
+
+                    }
+                )
+
+            ),
+          ],
+        );
+
+  }
+
   _colorPalette(){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

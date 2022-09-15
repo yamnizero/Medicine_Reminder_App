@@ -59,6 +59,15 @@ TextStyle get titleStyle{
       )
   );
 }
+TextStyle get titleStylePill{
+  return GoogleFonts.lato (
+      textStyle:  TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: Get.isDarkMode ? Colors.black : Colors.white
+      )
+  );
+}
 
 TextStyle get subTitleStyle{
   return GoogleFonts.lato (

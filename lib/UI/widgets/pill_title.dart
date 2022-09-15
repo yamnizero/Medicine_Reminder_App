@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
+import 'package:medicine_reminder_app2022/utils/constants.dart';
 
+import '../../models/medicine_type.dart';
 import '../theme.dart';
 
 class PillTitle extends StatelessWidget {
   final PillModel? pill;
-   PillTitle({Key? key, this.pill}) : super(key: key);
+
+   PillTitle({Key? key, this.pill,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,13 @@ class PillTitle extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           color: _getBGClr(pill?.color??0),
         ),
-        child: Row(children: [
+        child: Row(
+
+            children: [
+           if(pill != null && pill?.image != null)   Container(
+               height: 100,
+               width: 50,
+               child: Image.asset(pill?.image ?? kCreamImage)),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,6 +100,7 @@ class PillTitle extends StatelessWidget {
     );
   }
 
+
   _getBGClr(int no) {
     switch (no) {
       case 0:
@@ -103,4 +113,24 @@ class PillTitle extends StatelessWidget {
         return bluishClr;
     }
   }
+
+  _typeImage(int no){
+    switch (no) {
+      case 0 :
+        return Image.asset("assets/images/syrup.png");
+      case 1 :
+        return Image.asset("assets/images/pills.png");
+      case 2 :
+        return Image.asset("assets/images/capsule.png");
+      case  3 :
+        return Image.asset("assets/images/cream.png");
+      case  4 :
+        return Image.asset("assets/images/drops.png");
+      case  5 :
+        return Image.asset("assets/images/syringe.png");
+      default:
+        return Image.asset("assets/images/pills.png");
+    }
+  }
+
 }

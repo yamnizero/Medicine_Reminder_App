@@ -1,10 +1,9 @@
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicine_reminder_app2022/db/db_helper.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
 
-import '../models/medicine_type.dart';
+
 
 class PillController extends GetxController{
 
@@ -16,6 +15,7 @@ class PillController extends GetxController{
   }
 
   var pillList= <PillModel>[].obs;
+
 
   Future<int> addPill({PillModel? pill }) async {
     return await DBHelper.insert(pill);
@@ -31,8 +31,6 @@ class PillController extends GetxController{
      DBHelper.deleteHelper(pill);
      getPills();
   }
-
-
 
 
   void markPillCompleted(int id)async{

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -50,7 +52,7 @@ class NotifyHelper{
 
   scheduledNotification(int hour,int minutes,PillModel pill) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        pill.id!.toInt(),
+        pill.id?.toInt() ?? -1,
         pill.title,
         pill.note,
         _convertTime(hour,minutes),
@@ -63,7 +65,7 @@ class NotifyHelper{
         UILocalNotificationDateInterpretation.absoluteTime,
         //change time
         matchDateTimeComponents: DateTimeComponents.time,
-        payload: "${pill.title}|"+"${pill.title}|"
+        payload: jsonEncode(pill.toJson())
 
     );
 
@@ -95,21 +97,25 @@ class NotifyHelper{
 
   Future<void> displayNotification({required String title, required String body,}) async {
     print("doing test");
+
     var androidPlatformChannelSpecifics = const  AndroidNotificationDetails(
         'your channel id', 'your channel name', channelDescription:"Your description",
         playSound: true,
-        importance: Importance.max, priority: Priority.high);
+        importance: Importance.max, priority: Priority.high,
+    );
 
     var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
 
     var platformChannelSpecifics =  NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+
     await flutterLocalNotificationsPlugin.show(
       0,
       title,
       body,
       platformChannelSpecifics,
-      payload: 'It could be anything you pass',
+
+      payload: 'Default_Sound',
     );
   }
   // Request Permissions for iOS
@@ -124,13 +130,11 @@ class NotifyHelper{
     );
   }
 
-  Future selectNotification(String? payload) async {
-    if (payload != null) {
-      print('notification payload: $payload');
-    } else {
-      print("Notification Done");
-    }
-    Get.to(()=>NotifiedPage(label:payload));
+  Future selectNotification(String? payload,) async {
+    if(payload == null) return;
+    final json = jsonDecode(payload);
+    final pill = PillModel.fromJson(json);
+    Get.to(()=>NotifiedPage(label:payload,pill: pill,));
   }
 
   Future onDidReceiveLocalNotification(
