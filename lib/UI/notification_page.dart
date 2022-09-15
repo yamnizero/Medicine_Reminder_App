@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medicine_reminder_app2022/UI/theme.dart';
+import 'package:medicine_reminder_app2022/UI/widgets/widget_notify_page.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
 
 
@@ -30,48 +31,54 @@ class NotifiedPage extends StatelessWidget {
         ),),
       ),
       body: Center(
-        child: Container(
-          height: 400,
-          width: 300,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: _getBGClr(pill?.color??0),
-            ),
-          child:  Row(
-              children: [
-                if(pill.image != null)Image.asset(pill.image!),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        pill?.title??"",
-                        style: GoogleFonts.lato(
-                          textStyle: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 12,
-                      ),
-                      Text(
-                        pill?.note??"",
-                        style: GoogleFonts.lato(
-                          textStyle: TextStyle(fontSize: 15, color: Colors.grey[100]),
-                        ),
-                      ),
-                    ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                margin: const EdgeInsets.only(bottom: 30),
+                child: Column(
+                  children: const [
+                    Text("Hello,Medicine",style:  TextStyle(fontSize: 26,fontWeight: FontWeight.bold),),
+                    Text("You have a new reminder",style:  TextStyle(fontSize: 14,color: Colors.grey),),
+
+                  ],
+                )),
+            const SizedBox(height: 20,),
+            Container(
+              height: 400,
+              width: 300,
+              margin: const EdgeInsets.only(bottom: 80),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: _getBGClr(pill?.color??0),
+                ),
+              child:  Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // if(pill.image != null)Container(
+                  //     height: 100,
+                  //     width: 50,
+                  //     child: Image.asset(pill.image!)),
+                  WidgetNotifyPage(
+                    iconCard:Icons.title,
+                    titleCard: "Title",
+                    subTitleCard: pill.title??"",
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  height: 60,
-                  width: 0.5,
-                  color: Colors.grey[200]!.withOpacity(0.7),
-                ),
-              ]),
+                  WidgetNotifyPage(
+                    iconCard:Icons.description,
+                    titleCard: "Description",
+                    subTitleCard: pill.note??"",
+                  ),
+                  WidgetNotifyPage(
+                    iconCard:Icons.calendar_today ,
+                    titleCard: "Date",
+                    subTitleCard: pill.startTime??"",
+                  ),
+
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
