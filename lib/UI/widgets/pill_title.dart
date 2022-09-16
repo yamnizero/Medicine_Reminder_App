@@ -30,6 +30,7 @@ class PillTitle extends StatelessWidget {
 
             children: [
            if(pill != null && pill?.image != null)   Container(
+             margin: const EdgeInsets.only(right: 10),
                height: 100,
                width: 50,
                child: Image.asset(pill?.image ?? kCreamImage)),

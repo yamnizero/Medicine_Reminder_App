@@ -47,9 +47,9 @@ class _AddPillPageState extends State<AddPillPage> {
     MedicineType(
         "Cream", Image.asset(kCreamImage), false,kCreamImage),
     MedicineType(
-        "Drops", Image.asset("assets/images/drops.png"), false,"assets/images/drops.png"),
+        "Drops", Image.asset(kDrops), false,kDrops),
     MedicineType(
-        "Syringe", Image.asset("assets/images/syringe.png"), false,"assets/images/syringe.png"),
+        "Syringe", Image.asset(kSyringe), false,kSyringe),
   ];
   String _selectedRepeat = "None";
   List<String> repeatList =[

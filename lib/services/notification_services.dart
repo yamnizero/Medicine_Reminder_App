@@ -59,13 +59,17 @@ class NotifyHelper{
         //tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
         const NotificationDetails(
             android: AndroidNotificationDetails('your channel id',
-                'your channel name', channelDescription: 'your channel description')),
+                'your channel name', channelDescription: 'your channel description',playSound: true,
+            )),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
         UILocalNotificationDateInterpretation.absoluteTime,
         //change time
         matchDateTimeComponents: DateTimeComponents.time,
-        payload: jsonEncode(pill.toJson())
+        payload: jsonEncode(pill.toJson()),
+
+
+
 
     );
 
@@ -166,3 +170,7 @@ class NotifyHelper{
 
   }
 }
+
+
+
+//<receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
