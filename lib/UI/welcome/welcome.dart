@@ -9,9 +9,8 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    void goToHomeScreen() => Navigator.pushReplacement(context, MaterialPageRoute(
-      builder: (BuildContext context) => HomePage(),
-    ));
+
+
     return Scaffold(
 
       body: SafeArea(
@@ -24,16 +23,12 @@ class Welcome extends StatelessWidget {
              const  SizedBox(height:  20,),
             const TitleAndMessage(),
             const  SizedBox(height:  20,),
-           Container(
+          Container(
+              child: const Padding(
+                  padding:  EdgeInsets.only(left: 35.0, right: 35.0),
+                  child:  Button(
+                  )
 
-
-              child: Padding(
-                  padding: const EdgeInsets.only(left: 35.0, right: 35.0),
-                  child:
-                      PlatformFlatButton(
-                        text: "Get started now",
-                        onPressed: goToHomeScreen ,
-                      )
               ),),
           ],
         ),
