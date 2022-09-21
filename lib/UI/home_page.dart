@@ -166,14 +166,14 @@ class _HomePageState extends State<HomePage> {
             DateTime date = DateFormat.jm().parse(pill.startTime!);
             var myTime =DateFormat("HH:mm").format(date);
 
-            if(pill.repeat=='Daily') {
-              // notifyHelper.scheduledNotification(
-              //
-              //     int.parse(myTime.split(":")[0]),
-              //     int.parse(myTime.split(":")[1])+2,
-              //     pill
-              //
-              // );
+            if(pill.repeat=='Daily' && pill.remind==2) {
+              notifyHelper.scheduledNotification(
+
+                  int.parse(myTime.split(":")[0]),
+                  int.parse(myTime.split(":")[1])+2,
+                  pill
+
+              );
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -194,16 +194,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             }
-            else if(pill.date==DateFormat.yMd().format(_selectedDate)&&pill.remind==2)
+            else if(pill.date==DateFormat.yMd().format(_selectedDate))
             {
-              // if (pill.remind == 5) {
-                notifyHelper.scheduledNotification(
-
-                    int.parse(myTime.split(":")[0]),
-                    int.parse(myTime.split(":")[1])+2,
-
-                    pill,
-                 );
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
