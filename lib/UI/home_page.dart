@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +28,7 @@ class _HomePageState extends State<HomePage> {
   DateTime _selectedDate = DateTime.now();
   final _pillController = Get.put(PillController());
 
+
   late final notifyHelper;
 
   @override
@@ -34,6 +38,7 @@ class _HomePageState extends State<HomePage> {
     notifyHelper = NotifyHelper();
     notifyHelper.initializeNotification();
     notifyHelper.requestIOSPermissions();
+    _pillController.getPills();
   }
 
   @override
@@ -158,8 +163,17 @@ class _HomePageState extends State<HomePage> {
             PillModel pill = _pillController.pillList[index];
             print(pill.toJson());
             _scheduleNotificationDate(pill);
-            if(pill.repeat=='Daily'){
+            DateTime date = DateFormat.jm().parse(pill.startTime!);
+            var myTime =DateFormat("HH:mm").format(date);
 
+            if(pill.repeat=='Daily') {
+              // notifyHelper.scheduledNotification(
+              //
+              //     int.parse(myTime.split(":")[0]),
+              //     int.parse(myTime.split(":")[1])+2,
+              //     pill
+              //
+              // );
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -170,6 +184,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             _showBottomSheet(
                                 context, pill);
+
                           },
                           child: PillTitle(pill: pill),
                         )
@@ -179,7 +194,16 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             }
-            if(pill.date==DateFormat.yMd().format(_selectedDate)){
+            else if(pill.date==DateFormat.yMd().format(_selectedDate)&&pill.remind==2)
+            {
+              // if (pill.remind == 5) {
+                notifyHelper.scheduledNotification(
+
+                    int.parse(myTime.split(":")[0]),
+                    int.parse(myTime.split(":")[1])+2,
+
+                    pill,
+                 );
               return AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -198,7 +222,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               );
-            }else{
+
+            }else  {
               return Container();
             }
           },

@@ -33,7 +33,7 @@ class _ButtonState extends State<Button> {
                 setState(() {
                   isLoading =true;
                 });
-                Future.delayed(Duration(seconds: 3),(){
+                Future.delayed(const  Duration(seconds: 3),(){
                   setState(() {
                     goToHomeScreen();
                   });

@@ -50,7 +50,7 @@ class NotifyHelper{
 
   }
 
-  scheduledNotification(int hour,int minutes,PillModel pill) async {
+  scheduledNotification( int hour,  int minutes,  PillModel pill) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
         pill.id?.toInt() ?? -1,
         pill.title,
@@ -66,6 +66,7 @@ class NotifyHelper{
         UILocalNotificationDateInterpretation.absoluteTime,
         //change time
         matchDateTimeComponents: DateTimeComponents.time,
+
         payload: jsonEncode(pill.toJson()),
 
 

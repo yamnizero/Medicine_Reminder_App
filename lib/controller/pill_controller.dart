@@ -2,6 +2,7 @@
 import 'package:get/get.dart';
 import 'package:medicine_reminder_app2022/db/db_helper.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 
 
@@ -15,6 +16,7 @@ class PillController extends GetxController{
   }
 
   var pillList= <PillModel>[].obs;
+
 
 
   Future<int> addPill({PillModel? pill }) async {

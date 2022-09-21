@@ -1,6 +1,8 @@
 
 
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +14,8 @@ import 'package:medicine_reminder_app2022/controller/pill_controller.dart';
 import 'package:medicine_reminder_app2022/models/medicine_type.dart';
 import 'package:medicine_reminder_app2022/models/pill_model.dart';
 import 'package:medicine_reminder_app2022/utils/constants.dart';
+
+import '../utils/reminder_test.dart';
 
 class AddPillPage extends StatefulWidget {
   const AddPillPage({Key? key}) : super(key: key);
@@ -29,13 +33,26 @@ class _AddPillPageState extends State<AddPillPage> {
   DateTime _selectedDate = DateTime.now();
   String _startTime = DateFormat("hh:mm a").format(DateTime.now());
   String _endTime = "9:30 PM";
-  int _selectedRemind = 5;
-  List<int> remindList =[
-    5,
-    10,
-    15,
-    20,
+
+
+  int _selectedRemind = 2;
+  List<int> remindList =[2,10,15,20];
+
+  String _selectedRepeat = "None";
+  List<String> repeatList =[
+    "None",
+    "Daily",
+    "Weekly",
+    "Monthly",
   ];
+
+  // List<int> intervals = [
+  //   6,
+  //   8,
+  //   12,
+  //   24,
+  // ];
+  // int _selectedIntervals = 0;
 
   //list of medicines forms objects
   final List<MedicineType> medicineTypes = [
@@ -51,16 +68,9 @@ class _AddPillPageState extends State<AddPillPage> {
     MedicineType(
         "Syringe", Image.asset(kSyringe), false,kSyringe),
   ];
-  String _selectedRepeat = "None";
-  List<String> repeatList =[
-    "None",
-    "Daily",
-    "Weekly",
-    "Monthly",
-  ];
+
 
   int _selectedColor = 0;
-  int _selectedTypeImage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +139,8 @@ class _AddPillPageState extends State<AddPillPage> {
                 ],
               ),
                MyInputField(
-                title: "Remind",
-                hint: "$_selectedRemind minutes early",
+                title: "Remind me every",
+                hint: "$_selectedRemind hours",
                  widget: DropdownButton(
                    icon: const Icon(Icons.keyboard_arrow_down,color: Colors.grey,),
                    iconSize: 32,
@@ -147,12 +157,13 @@ class _AddPillPageState extends State<AddPillPage> {
                    onChanged: (String? newValue) {
                      setState(() {
                        _selectedRemind = int.parse(newValue!);
+
                      });
                    },
                  ),
               ),
 
-              //IMages
+              // _interval(),
 
                MyInputField(
                 title: "Repeat",
@@ -241,9 +252,9 @@ class _AddPillPageState extends State<AddPillPage> {
         remind: _selectedRemind,
         repeat: _selectedRepeat,
         color: _selectedColor,
+        // intervals: _selectedIntervals,
         // medicineForm: _selectedTypeImage,
-        image: medicineTypes.firstWhere((element) => element?.isChoose ?? false,orElse: ()=> medicineTypes.first).rawImage,
-
+        image: medicineTypes.firstWhere((element) => element.isChoose ?? false,orElse: ()=> medicineTypes.first).rawImage,
         isCompleted: 0,
       )
     );
@@ -257,47 +268,7 @@ class _AddPillPageState extends State<AddPillPage> {
       medicineTypes[medicineTypes.indexOf(medicine)].isChoose = true;
     });
   }
-  _typeImagePalette(){
-    return
 
-        // Text("Medicine form",style: titleStyle,),
-        // const SizedBox(height: 8.0,),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Medicine form",style: titleStyle,),
-            const SizedBox(height: 8.0,),
-
-            Wrap(
-                children: List<Widget>.generate(
-                    6,
-                        (int index){
-                      return  GestureDetector(
-                        onTap: (){
-                          setState(() {
-                            _selectedTypeImage =index;
-
-                          });
-                        },
-                        child: Padding(
-                          padding: const  EdgeInsets.only(right: 8.0),
-                          child:  CircleAvatar(
-                            radius: 100.0,
-                          child: _selectedTypeImage==index
-                              ? const Icon(Icons.done,color: Colors.white,size: 16,)
-                              :Container(),
-                        ),
-                        ),
-                      );
-
-                    }
-                )
-
-            ),
-          ],
-        );
-
-  }
 
   _colorPalette(){
     return Column(

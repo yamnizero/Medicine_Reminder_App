@@ -45,6 +45,7 @@ class DBHelper{
   }
 
   static deleteHelper(PillModel pill) async {
+
   return await _db!.delete(
       _tableName,
       where: 'id=?',

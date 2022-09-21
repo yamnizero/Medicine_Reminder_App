@@ -75,6 +75,25 @@ class PillTitle extends StatelessWidget {
                     textStyle: TextStyle(fontSize: 15, color: Colors.grey[100]),
                   ),
                 ),
+                const SizedBox(height: 10),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.access_time_rounded,
+                      color: Colors.grey[200],
+                      size: 18,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      "Every ${pill!.remind} hour",
+                      style: GoogleFonts.lato(
+                        textStyle:
+                        TextStyle(fontSize: 13, color: Colors.grey[100]),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

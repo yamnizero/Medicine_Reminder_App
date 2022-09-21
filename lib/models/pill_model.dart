@@ -11,7 +11,7 @@ class PillModel{
   int? color;
   int? remind;
   String? repeat;
-  // int? image;
+  int? intervals;
   // int? medicineForm;
   String? image;
 
@@ -28,7 +28,8 @@ class PillModel{
     this.color,
     this.remind,
     this.repeat,
-    this.image
+    this.image,
+    // this.intervals,
     // this.medicineForm,
     // this.image
 
@@ -47,6 +48,7 @@ class PillModel{
     remind = json['remind'];
     repeat = json['repeat'];
     image = json['image'];
+    // intervals = json['intervals'];
     // medicineForm=json['medicineForm'];
     // image=json['image'];
 
@@ -66,6 +68,7 @@ class PillModel{
     data['remind'] = remind;
     data['repeat'] = repeat;
     data['image'] = image;
+    // data['intervals'] = intervals;
     // data['medicineForm'] =medicineForm;
     // data['image'] =image;
 
